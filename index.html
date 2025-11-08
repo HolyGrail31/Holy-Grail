@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 标题已更新，更符合BTC和高深的主题 -->
+    <title>圣杯联盟量化策略研究室 (Holy Grail Alliance) - BTC永续合约高频交易模型</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* 所有的CSS样式都完整保留，确保视觉风格不变 */
+        body {
+            font-family: 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+            background-color: #111827;
+            color: #E5E7EB;
+        }
+        .hero-bg {
+            background-color: #111827;
+            background-image: radial-gradient(#374151 1px, transparent 1px);
+            background-size: 20px 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .section-title {
+            color: #FBBF24;
+        }
+        .card {
+            background-color: #1F2937;
+            border: 1px solid #374151;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(251, 191, 36, 0.1), 0 4px 6px -2px rgba(251, 191, 36, 0.05);
+        }
+        .btn-primary {
+            background-color: #FBBF24;
+            color: #111827;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #F59E0B;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        nav {
+            backdrop-filter: blur(10px);
+            background-color: rgba(17, 24, 39, 0.8);
+        }
+        .form-input {
+            background-color: #374151;
+            border-color: #4B5563;
+        }
+        .form-input:focus {
+            background-color: #4B5563;
+            border-color: #FBBF24;
+            outline: none;
+            box-shadow: none;
+        }
+        .counter-box {
+            background: linear-gradient(145deg, #1f2937, #253141);
+            border: 1px solid #374151;
+        }
+        section[id] {
+            min-height: 100vh;
+            padding-top: 8rem;
+            padding-bottom: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #home {
+            min-height: 100vh;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="sticky top-0 z-50 w-full border-b border-gray-700">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <a href="#home" class="flex items-center cursor-pointer">
+                <!-- SVG Logo 图标保留 -->
+                <svg class="w-8 h-8 text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <!-- 品牌名称已更新 -->
+                <span class="text-xl font-bold text-white">圣杯联盟量化</span>
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <!-- 导航链接文本已更新 -->
+                <a href="#home" class="text-gray-300 hover:text-yellow-400">首页</a>
+                <a href="#market-insight" class="text-gray-300 hover:text-yellow-400">Crypto洞察</a>
+                <a href="#technology" class="text-gray-300 hover:text-yellow-400">策略矩阵</a>
+                <a href="#risk-philosophy" class="text-gray-300 hover:text-yellow-400">风控哲学</a>
+                <a href="#future-outlook" class="text-gray-300 hover:text-yellow-400">未来纪元</a>
+                <a href="#partnership" class="text-gray-300 hover:text-yellow-400">策略接入</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页 Hero Section -->
+    <section id="home" class="hero-bg">
+        <div class="container mx-auto text-center px-6">
+            <!-- Slogan 已更新 -->
+            <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight">
+                驾驭7x24小时波动<br class="hidden md:block">
+                <span class="text-yellow-400">用算法定义BTC未来</span>
+            </h1>
+            <!-- 介绍已更新，包含Bitget平台 -->
+            <p class="mt-6 text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
+                圣杯联盟量化策略研究室是顶尖的Crypto算法研究机构，专注于Bitget平台BTC永续合约的高频套利与趋势捕捉模型。我们探索数字货币市场的混沌边缘。
+            </p>
+            <div class="mt-8">
+                <!-- CTA按钮文本已更新 -->
+                <a href="#partnership" class="btn-primary font-bold py-3 px-8 rounded-lg text-lg inline-block">立即接入</a>
+            </div>
+            <!-- 免责声明已更新 -->
+            <p class="mt-6 text-sm text-gray-500 font-semibold">*重要声明：我们不是投资顾问，不提供任何形式的投资建议。所有内容仅为策略模型展示。加密货币交易具有高风险。</p>
+        </div>
+    </section>
+
+    <!-- 市场洞察 -->
+    <section id="market-insight" class="bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <!-- 标题已更新 -->
+                <h2 class="text-3xl font-bold text-white mb-4">Crypto洞察：数字黄金的新纪元</h2>
+                <p class="section-title font-semibold text-lg">BTC永续合约的无限博弈</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <!-- 左侧文本已更新为BTC永续合约内容 -->
+                <div class="text-gray-300 space-y-4">
+                    <p>加密市场是全球唯一 7x24 小时不间断交易的市场。BTC永续合约作为其核心衍生品，提供了高达100倍的杠杆，放大了机遇与风险。</p>
+                    <p>与传统金融不同，这里的市场情绪、链上数据和宏观事件交织，创造了传统工具无法捕捉的复杂套利空间。我们的模型正是在这种高维混沌中寻找确定性。</p>
+                </div>
+                <!-- 右侧图表已更新为Crypto衍生品内容 -->
+                <div class="card p-6 rounded-lg">
+                    <h4 class="font-bold text-white text-lg mb-4 text-center">Crypto衍生品交易量占比（示意）</h4>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-300">CEX 永续合约</span>
+                                <span class="text-sm font-medium text-gray-300">~85%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: 85%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-300">CEX 期货</span>
+                                <span class="text-sm font-medium text-gray-300">~10%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: 10%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-300">期权</span>
+                                <span class="text-sm font-medium text-gray-300">~3%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: 3%"></div></div>
+                        </div>
+                         <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-base font-medium text-gray-300">现货杠杆</span>
+                                <span class="text-sm font-medium text-gray-300">~2%</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5"><div class="bg-yellow-400 h-2.5 rounded-full" style="width: 2%"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术解析 -->
+    <section id="technology">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <!-- 标题已更新为“高深莫测”的策略名称 -->
+                <h2 class="text-3xl font-bold text-white text-center mb-4">高维策略矩阵</h2>
+                <p class="section-title font-semibold text-lg text-center">驱动全自动交易的核心引擎</p>
+            </div>
+            <div class="grid md:grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Card 1 已更新为高频和链上数据 -->
+                <div class="card p-8 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-3">“天网” - 跨周期动量引擎</h3>
+                    <p class="text-gray-400 mb-4">我们的核心引擎“天网” (Skynet) 实时解析市场微观结构，捕捉毫秒间的失衡。因子库涵盖：</p>
+                    <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><b>高频盘口挖掘:</b> 追踪Bitget深度图上的大额挂单异动。</li>
+                        <li><b>链上巨鲸追踪:</b> 实时监控大额转账与交易所流入流出。</li>
+                        <li><b>资金费率套利:</b> 捕捉永续合约与现货间的价差与费率机会。</li>
+                        <li><b>多时间尺度拟合:</b> AI模型在1分钟、15分钟、4小时周期上同时寻找共振。</li>
+                    </ul>
+                </div>
+                <!-- Card 2 已更新为强化学习和Bitget Tick数据 -->
+                <div class="card p-8 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-3">“普罗米修斯” - 强化学习决策体</h3>
+                    <p class="text-gray-400 mb-4">“普罗米修斯” (Prometheus) 智能体基于强化学习，在模拟环境中进行了数万次博弈训练：</p>
+                     <ul class="list-disc list-inside text-gray-300 space-y-2">
+                        <li><b>环境感知:</b> 实时流式处理Bitget Tick数据与链上数据流。</li>
+                        <li><b>决策状态:</b> 基于混沌理论，计算市场当前的非线性状态。</li>
+                        <li><b>奖励反馈:</b> 采用夏普比率优化的非对称奖励函数。</li>
+                        <li><b>策略迭代:</b> 运用PPO算法，每4小时迭代一次模型，适应最新市场。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 风控理念 -->
+    <section id="risk-philosophy" class="bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <!-- 标题已更新 -->
+                <h2 class="text-3xl font-bold text-white text-center mb-4">零信任风控哲学</h2>
+                <p class="section-title font-semibold text-lg text-center">在高波动中寻求绝对Alpha</p>
+            </div>
+            <!-- 三个卡片均已更新为高级风控概念 -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="card p-8 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-3">量子纠缠对冲</h3>
+                    <p class="text-gray-400">模型不依赖单一策略。通过挖掘BTC与ETH间的非线性相关性，构建多空对冲组合，剥离市场Beta，实现纯粹的Alpha收益。</p>
+                </div>
+                <div class="card p-8 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-3">自适应ATR风险敞口</h3>
+                    <p class="text-gray-400">摒弃固定的止损点。系统基于30分钟ATR（平均真实波幅）动态计算风险敞口，结合流动性深度，实现毫秒级动态调仓，避免插针行情。</p>
+                </div>
+                 <div class="card p-8 rounded-lg">
+                    <h3 class="text-xl font-bold text-white mb-3">凯利准则仓位管理</h3>
+                    <p class="text-gray-400">AI智能体基于凯利准则，根据每个信号的预期胜率和赔率实时计算最优仓位。在确定性高的行情中自动加仓，在混沌期自动缩减。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 未来展望 -->
+    <section id="future-outlook">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-12">
+                <!-- 标题已更新为更具未来感的主题 -->
+                <h2 class="text-3xl font-bold text-white text-center mb-4">未来纪元：通向AGI交易</h2>
+                <p class="section-title font-semibold text-lg text-center">探索算法交易的最终形态</p>
+            </div>
+            <!-- 展望内容已全部更新 -->
+            <div class="space-y-8">
+                <div class="card p-6 rounded-lg flex items-start space-x-4">
+                    <div class="flex-shrink-0"><div class="bg-yellow-400 text-gray-900 w-8 h-8 rounded-full flex items-center justify-center font-bold">1</div></div>
+                    <div>
+                        <h3 class="font-bold text-white text-lg mb-1">链上与CEX数据融合</h3>
+                        <p class="text-gray-400">深度整合Glassnode, Nansen等链上数据流，将巨鲸异动、交易所流入流出数据作为高权重因子，实现对市场“聪明钱”的提前布局。</p>
+                    </div>
+                </div>
+                 <div class="card p-6 rounded-lg flex items-start space-x-4">
+                    <div class="flex-shrink-0"><div class="bg-yellow-400 text-gray-900 w-8 h-8 rounded-full flex items-center justify-center font-bold">2</div></div>
+                    <div>
+                        <h3 class="font-bold text-white text-lg mb-1">Transformer模型应用</h3>
+                        <p class="text-gray-400">引入基于Transformer架构（如BERT）的NLP模型，实时分析全球社交媒体（Twitter, Telegram）情绪，将其量化为情绪因子，捕捉由FUD或FOMO驱动的突发行情。</p>
+                    </div>
+                </div>
+                 <div class="card p-6 rounded-lg flex items-start space-x-4">
+                    <div class="flex-shrink-0"><div class="bg-yellow-400 text-gray-900 w-8 h-8 rounded-full flex items-center justify-center font-bold">3</div></div>
+                    <div>
+                        <h3 class="font-bold text-white text-lg mb-1">DeFi与CEX联合套利</h3>
+                        <p class="text-gray-400">构建跨市场（Bitget CEX与Uniswap, AAVE等DeFi协议）的闪电套利模型，利用不同市场的微小价差和费率差，实现低风险、高频率的复合收益。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 合作洽谈 -->
+    <section id="partnership" class="bg-gray-900">
+        <div class="container mx-auto px-6 max-w-xl">
+             <!-- 计数器文本和基础值已更新 -->
+             <div class="counter-box text-center p-6 rounded-xl shadow-lg mb-10">
+                <p class="text-gray-300 text-lg">已有 <span id="counter" class="text-yellow-400 font-bold text-2xl"></span> 位高净值客户接入策略</p>
+            </div>
+            
+            <!-- 标题和副标题已更新 -->
+            <h2 class="text-3xl font-bold text-white text-center mb-4">接入策略 & 合作洽谈</h2>
+            <p class="text-gray-400 text-center mb-8">我们为高净值客户及机构提供Bitget平台的跟单策略接入。提交信息，立即获取我们的《BTC高频交易模型回测报告》。</p>
+
+            <form id="contact-form" class="space-y-6">
+                <div>
+                    <!-- 字段名已更新 -->
+                    <label for="name" class="block text-sm font-medium text-gray-300">姓名 / 称呼</label>
+                    <input type="text" id="name" name="name" required class="form-input mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:ring-yellow-500 sm:text-sm text-white p-3">
+                </div>
+                <div>
+                    <!-- 字段名和类型已更新，以接受TG/WeChat -->
+                    <label for="contact" class="block text-sm font-medium text-gray-300">联系方式 (TG / WeChat / 手机)</label>
+                    <input type="text" id="contact" name="contact" required class="form-input mt-1 block w-full rounded-md border-gray-600 shadow-sm focus:ring-yellow-500 sm:text-sm text-white p-3">
+                    <p class="mt-1 text-xs text-gray-500">*请填写真实联系方式，我们的策略顾问将与您联系。</p>
+                </div>
+                <div>
+                    <!-- 按钮文本已更新 -->
+                    <button type="submit" class="w-full btn-primary font-bold py-3 px-4 rounded-md shadow-sm text-lg">获取独家回测报告</button>
+                </div>
+            </form>
+            <div id="form-message" class="mt-4 text-center"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-700 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <!-- 版权和免责声明已更新 -->
+            <p>&copy; 2025 圣杯联盟量化策略研究室 (Holy Grail Alliance Quant Lab). All Rights Reserved.</p>
+            <p class="text-xs mt-2">免责声明：本网站所有内容仅为策略模型展示，不构成任何投资建议。加密货币市场波动巨大，具有极高风险，入市需谨慎。</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 动态计数器
+            const counterElement = document.getElementById('counter');
+            if(counterElement) {
+                // 更新了基础计数值，使其看起来更“稀有”
+                let baseCount = 8743; 
+                let randomIncrement = Math.floor(Math.random() * 10) + 1;
+                counterElement.textContent = (baseCount + randomIncrement).toLocaleString();
+            }
+
+            // 表单提交处理
+            const form = document.getElementById('contact-form');
+            const messageDiv = document.getElementById('form-message');
+
+            if(form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    const name = document.getElementById('name').value.trim();
+                    // ID 已从 'phone' 更新为 'contact'
+                    const contact = document.getElementById('contact').value.trim();
+
+                    // 验证逻辑已更新
+                    if (!name || !contact) {
+                        messageDiv.innerHTML = `<p class="text-red-400">姓名和联系方式不能为空。</p>`;
+                        return;
+                    }
+                    
+                    // 移除了手机号的正则验证，以接受TG/WeChat
+                    
+                    messageDiv.innerHTML = `<p class="text-green-400">提交成功！正在为您准备报告...</p>`;
+                    
+                    // 2秒后打开您仓库中的PDF文件
+                    setTimeout(() => {
+                        // --- 关键更新在这里 ---
+                        // PDF文件名已更新为您新策略的报告
+                        // 您需要在您的项目中准备一个同名文件
+                        const pdfUrl = 'BTC高频交易模型回测报告.pdf'; 
+                        
+                        console.log('Attempting to open PDF at:', pdfUrl);
+
+                        window.open(pdfUrl, '_blank');
+                        
+                        messageDiv.innerHTML = '';
+                        form.reset();
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
